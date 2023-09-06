@@ -1,0 +1,12 @@
+{
+	"required": true,
+	"package": "stop.villager.jumping.mixin",
+	"compatibilityLevel": "JAVA_17",
+	"mixins": [
+		"VillagerMixin",
+		"LivingEntityMixin"
+	],
+	"injectors": {
+		"defaultRequire": 1
+	}
+}
