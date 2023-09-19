@@ -1,6 +1,5 @@
 package stop.villager.jumping.mixin;
 
-import net.minecraft.entity.ai.brain.Brain;
 import net.minecraft.entity.passive.VillagerEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
@@ -9,7 +8,7 @@ import net.minecraft.nbt.NbtCompound;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
 import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.Shadow;
+import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
@@ -20,8 +19,8 @@ import stop.villager.jumping.util.IEntityDataSaver;
 @Mixin(VillagerEntity.class)
 public abstract class VillagerMixin {
 
-    private VillagerEntity thisVillager = (VillagerEntity) (Object) this;
-    private boolean chained;
+    @Unique private final VillagerEntity thisVillager = (VillagerEntity) (Object) this;
+    @Unique private boolean chained;
 
     @Inject(method = "interactMob", at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/player/PlayerEntity;getStackInHand(Lnet/minecraft/util/Hand;)Lnet/minecraft/item/ItemStack;", shift = At.Shift.AFTER), cancellable = true)
     private void interactM(PlayerEntity player, Hand hand, CallbackInfoReturnable<ActionResult> cir) {
@@ -37,7 +36,7 @@ public abstract class VillagerMixin {
             player.giveItemStack(ballAndChain.getDefaultStack());
             cir.setReturnValue(ActionResult.SUCCESS);
         }
-        NbtCompound nbtData = ((IEntityDataSaver) player).getPersistentData();
+        NbtCompound nbtData = ((IEntityDataSaver) thisVillager).getPersistentData();
 
         nbtData.putBoolean("isChained", chained);
     }
