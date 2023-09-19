@@ -3,13 +3,13 @@
 	"id": "stop-villager-jumping",
 	"version": "1.0.1",
 	"name": "Stop Villager Jumping",
-	"description": "This is an example description! Tell everyone what your mod is about!",
+	"description": "Adds an item that stops villagers from jumping",
 	"authors": [
-		"Me!"
+		"Bombastian"
 	],
 	"contact": {
-		"homepage": "https://fabricmc.net/",
-		"sources": "https://github.com/FabricMC/fabric-example-mod"
+		"homepage": "https://github.com/Bombastian1230/Stop-Villager-Jumping",
+		"sources": "https://github.com/Bombastian1230/Stop-Villager-Jumping"
 	},
 	"license": "CC0-1.0",
 	"icon": "assets/stop-villager-jumping/icon.png",
