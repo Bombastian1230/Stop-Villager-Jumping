@@ -15,6 +15,7 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import stop.villager.jumping.StopVillagerJumpingMod;
+import stop.villager.jumping.util.IEntityDataSaver;
 
 @Mixin(VillagerEntity.class)
 public abstract class VillagerMixin {
@@ -36,16 +37,9 @@ public abstract class VillagerMixin {
             player.giveItemStack(ballAndChain.getDefaultStack());
             cir.setReturnValue(ActionResult.SUCCESS);
         }
-    }
+        NbtCompound nbtData = ((IEntityDataSaver) player).getPersistentData();
 
-    @Inject(method = "writeCustomDataToNbt", at = @At(value = "TAIL"))
-    private void writeNBT(NbtCompound nbt, CallbackInfo ci) {
-        nbt.putBoolean("IsChained", chained);
-    }
-
-    @Inject(method = "readCustomDataFromNbt", at = @At(value = "TAIL"))
-    private void readNBT(NbtCompound nbt, CallbackInfo ci) {
-        chained = nbt.getBoolean("IsChained");
+        nbtData.putBoolean("isChained", chained);
     }
 
     @Inject(method = "tick", at=@At(value = "TAIL"))
