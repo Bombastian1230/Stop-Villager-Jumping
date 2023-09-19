@@ -8,8 +8,8 @@ import net.minecraft.util.Hand;
 import net.minecraft.util.TypedActionResult;
 import net.minecraft.world.World;
 
-public class Legcuffs extends Item {
-    public Legcuffs(Settings settings) {
+public class BallAndChainItem extends Item {
+    public BallAndChainItem(Settings settings) {
         super(settings);
     }
 
