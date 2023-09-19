@@ -52,9 +52,4 @@ public abstract class VillagerMixin {
     private void tickM(CallbackInfo ci) {
 
     }
-
-    @Inject(method = "canImmediatelyDespawn", at = @At(value = "HEAD"), cancellable = true)
-    private void hijacing(double distanceSquared, CallbackInfoReturnable<Boolean> cir) {
-        cir.setReturnValue(chained);
-    }
 }
