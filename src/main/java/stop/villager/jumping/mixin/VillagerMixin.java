@@ -24,18 +24,17 @@ public abstract class VillagerMixin {
     @Inject(method = "interactMob", at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/player/PlayerEntity;getStackInHand(Lnet/minecraft/util/Hand;)Lnet/minecraft/item/ItemStack;", shift = At.Shift.AFTER), cancellable = true)
     private void interactM(PlayerEntity player, Hand hand, CallbackInfoReturnable<ActionResult> cir) {
         ItemStack stack = player.getStackInHand(hand);
-        if(stack.getItem() == StopVillagerJumpingMod.BALL_AND_CHAIN_ITEM && !chained) {
+        NbtCompound nbtData = ((IEntityDataSaver) thisVillager).getPersistentData();
+        if(stack.getItem() == StopVillagerJumpingMod.BALL_AND_CHAIN_ITEM && !nbtData.getBoolean("isChained")) {
             chained = true;
             player.setStackInHand(hand, ItemStack.EMPTY);
             cir.setReturnValue(ActionResult.SUCCESS);
-        } else if (player.getStackInHand(hand) == ItemStack.EMPTY && player.isSneaking() && chained) {
+        } else if (player.getStackInHand(hand) == ItemStack.EMPTY && player.isSneaking() && nbtData.getBoolean("isChained")) {
             chained = false;
             Item ballAndChain = StopVillagerJumpingMod.BALL_AND_CHAIN_ITEM;
             player.giveItemStack(ballAndChain.getDefaultStack());
             cir.setReturnValue(ActionResult.SUCCESS);
         }
-        NbtCompound nbtData = ((IEntityDataSaver) thisVillager).getPersistentData();
-
         nbtData.putBoolean("isChained", chained);
     }
 }
