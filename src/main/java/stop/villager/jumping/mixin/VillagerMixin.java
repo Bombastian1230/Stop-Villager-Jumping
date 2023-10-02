@@ -11,7 +11,6 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
-import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import stop.villager.jumping.StopVillagerJumpingMod;
 import stop.villager.jumping.util.IEntityDataSaver;
@@ -24,7 +23,6 @@ public abstract class VillagerMixin {
 
     @Inject(method = "interactMob", at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/player/PlayerEntity;getStackInHand(Lnet/minecraft/util/Hand;)Lnet/minecraft/item/ItemStack;", shift = At.Shift.AFTER), cancellable = true)
     private void interactM(PlayerEntity player, Hand hand, CallbackInfoReturnable<ActionResult> cir) {
-        StopVillagerJumpingMod.LOGGER.info("Villager interacted");
         ItemStack stack = player.getStackInHand(hand);
         if(stack.getItem() == StopVillagerJumpingMod.BALL_AND_CHAIN_ITEM && !chained) {
             chained = true;
@@ -39,10 +37,5 @@ public abstract class VillagerMixin {
         NbtCompound nbtData = ((IEntityDataSaver) thisVillager).getPersistentData();
 
         nbtData.putBoolean("isChained", chained);
-    }
-
-    @Inject(method = "tick", at=@At(value = "TAIL"))
-    private void tickM(CallbackInfo ci) {
-
     }
 }
